@@ -1,0 +1,217 @@
+.project-detail-page {
+  position: relative;
+  isolation: isolate;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.project-detail-page,
+.project-detail-page *,
+.project-detail-page *::before,
+.project-detail-page *::after {
+  box-sizing: border-box;
+}
+
+.project-detail-page h1,
+.project-detail-page h2,
+.project-detail-page h3,
+.project-detail-page h4,
+.project-detail-page h5,
+.project-detail-page h6 {
+  font-family: 'PT Sans', sans-serif;
+}
+
+.project-detail-page .nav-link {
+  position: relative;
+}
+
+.project-detail-page .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-detail-page .nav-link:hover::after {
+  width: 100%;
+}
+
+.project-detail-page .btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-detail-page .btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.18);
+  transform: skewX(-20deg);
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-detail-page .btn-primary:hover::after {
+  left: 160%;
+}
+
+.project-detail-page .photo-frame {
+  position: relative;
+  overflow: hidden;
+  background: #e4e4e7;
+}
+
+.project-detail-page .photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-detail-page .progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 3px;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+.project-detail-page .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-detail-page .reveal.in,
+.project-detail-page .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-detail-page .d1 { transition-delay: 0.07s; }
+.project-detail-page .d2 { transition-delay: 0.14s; }
+.project-detail-page .d3 { transition-delay: 0.21s; }
+.project-detail-page .d4 { transition-delay: 0.28s; }
+
+.project-detail-page .prose-cs h2 {
+  margin: 2.75rem 0 1rem;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.project-detail-page .prose-cs h3 {
+  margin: 2rem 0 0.6rem;
+  color: var(--accent);
+  font-family: 'PT Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.project-detail-page .prose-cs p {
+  margin: 0 0 1.4rem;
+  color: #52525b;
+  line-height: 1.82;
+}
+
+.dark .project-detail-page .prose-cs p {
+  color: #a1a1aa;
+}
+
+.project-detail-page .prose-cs ul {
+  margin: 0 0 1.4rem 1.5rem;
+  list-style: disc;
+}
+
+.project-detail-page .prose-cs li {
+  margin-bottom: 0.45rem;
+  color: #52525b;
+  line-height: 1.7;
+}
+
+.dark .project-detail-page .prose-cs li {
+  color: #a1a1aa;
+}
+
+.project-detail-page .prose-cs blockquote {
+  margin: 0 0 1.8rem;
+  padding: 0.75rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: #f0fdfa;
+}
+
+.dark .project-detail-page .prose-cs blockquote {
+  background: #27272a;
+}
+
+.project-detail-page .prose-cs blockquote p {
+  margin: 0;
+  color: #52525b;
+  font-style: italic;
+}
+
+.dark .project-detail-page .prose-cs blockquote p {
+  color: #a1a1aa;
+}
+
+.project-detail-page .prose-cs hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid #e4e4e7;
+}
+
+.dark .project-detail-page .prose-cs hr {
+  border-top-color: #27272a;
+}
+
+.project-detail-page .prose-cs a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.project-detail-page .stat-card {
+  border-left: 3px solid var(--accent);
+}
+
+.project-detail-page .img-caption {
+  margin-top: 0.6rem;
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.project-detail-page .step-badge {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.project-detail-page .card-h {
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.18s;
+}
+
+.project-detail-page .card-h:hover {
+  transform: translateY(-4px);
+}
