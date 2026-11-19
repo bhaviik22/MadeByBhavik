@@ -7,7 +7,7 @@ type ApiPayload<T> = { data?: T } | null
 const cacheDurationMs = 60_000
 const requestCache = new Map<string, { expiresAt: number; promise: Promise<unknown> }>()
 
-function invokeCached<T>(functionName: string): Promise<T> {
+function invokeCached<T>(functionName: string): Promise<T | null> {
   const cached = requestCache.get(functionName)
   if (cached && cached.expiresAt > Date.now()) {
     return cached.promise as Promise<T>
