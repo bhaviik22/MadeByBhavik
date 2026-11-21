@@ -22,6 +22,7 @@ export function getRoute(pathname: string): Route {
 
 export function navigate(path: string): void {
   window.history.pushState({}, '', path)
+  window.scrollTo(0, 0)
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
 
