@@ -91,6 +91,7 @@ const HeroSection: FC<{ siteContent: unknown; isLoading?: boolean }> = ({ siteCo
                     <div className="reveal d2 flex justify-center md:justify-end">
                         <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
                             <div className="pf w-full h-full rounded-3xl">
+                                <img src="https://nlkiwqlvtitnstsexsga.supabase.co/storage/v1/object/public/project%20media/Modern_Coding_Workspace.png" alt="dotnet"/>
                             </div>
                             <div className="absolute -bottom-4 -left-4 bg-accent text-white font-display font-bold text-sm px-4 py-2.5 rounded-2xl shadow-lg">Open to projects</div>
                         </div>

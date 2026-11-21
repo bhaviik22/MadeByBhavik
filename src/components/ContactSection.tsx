@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { toast } from 'react-hot-toast';
 import { RxCross2 } from 'react-icons/rx';
-import { BrevoClient } from '@getbrevo/brevo';
+import emailjs from '@emailjs/browser';
 import { MdEmail } from 'react-icons/md';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { insertContact } from '../services/projectService';
+
+const EMAIL_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAIL_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const EMAIL_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 
 const showContactError = (message: string) => {
     toast.custom((t) => (
@@ -32,7 +37,6 @@ const ContactSection = () => {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [subject, setSubject] = useState("");
-    const BREVO_API_KEY = import.meta.env.VITE_BREVO_API_KEY;
 
     const handleInputChange = (type: string, value: string,) => {
 
@@ -54,8 +58,18 @@ const ContactSection = () => {
 
     const handleSubmit = async () => {
 
-        if (name == "" || email == "" || message == "") {
+        if (name.trim() === "" || subject.trim() === "" || email.trim() === "" || message.trim() === "") {
             showContactError("Please fill in all fields.");
+            return;
+        }
+
+        if (name.length > 25) {
+            showContactError("Name must be 25 characters or fewer.");
+            return;
+        }
+
+        if (subject.length > 40) {
+            showContactError("Subject must be 40 characters or fewer.");
             return;
         }
 
@@ -64,38 +78,39 @@ const ContactSection = () => {
             return;
         }
 
-        const payload = {
-            name: name,
-            email: email,
-            message: message
+        try {
+            await insertContact({
+                name,
+                subject,
+                email: email.trim(),
+                description: message,
+            });
+        } catch (e) {
+            console.error("Error submitting contact:", e);
+            toast.error("Failed to submit response.");
+            return;
         }
-        console.log(payload);
-
+        toast.success("Response submitted successfully!");
         await sendEmail();
     }
 
     const sendEmail = async () => {
         try {
-            const client = new BrevoClient({
-                apiKey: BREVO_API_KEY,
-            });
-            await client.transactionalEmails.sendTransacEmail({
-                sender: {
-                    email: "bhavikhpanchal1204@gmail.com",
-                    name: "Bhavik Panchal",
-                },
-                templateId: 2,
-                params: {
-                    name: name,
-                },
-                to: [
-                    {
-                        email: email.trim(),
-                        name: name,
+            await emailjs.send(
+                EMAIL_SERVICE_ID,
+                EMAIL_TEMPLATE_ID,
+                {
+                    Name: name,
+                    email: email.trim(),
+                    params: {
+                        NAME: name,
                     },
-                ],
-            });
-            toast.success("Response submitted successfully!");
+                },
+                {
+                    publicKey: EMAIL_PUBLIC_KEY
+                }
+            );
+            
             setName("");
             setEmail("");
             setMessage("");
@@ -150,7 +165,7 @@ const ContactSection = () => {
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Name <span aria-hidden="true">*</span></label>
-                                            <input type="text" id="fname" name="name" value={name} placeholder="Jane Smith" onChange={(e) => handleInputChange("name", e.target.value)}
+                                            <input type="text" id="fname" name="name" value={name} maxLength={25} placeholder="Jane Smith" onChange={(e) => handleInputChange("name", e.target.value)}
                                                 className="w-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors" />
                                         </div>
                                         <div>
@@ -160,10 +175,10 @@ const ContactSection = () => {
                                         </div>
                                     </div>
                                     <div>
-                                            <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Subject<span aria-hidden="true">*</span></label>
-                                            <input type="text" id="fsubject" name="subject" value={subject} placeholder="Project Inquiry" onChange={(e) => handleInputChange("subject", e.target.value)}
-                                                className="w-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors" />
-                                        </div>
+                                        <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Subject<span aria-hidden="true">*</span></label>
+                                        <input type="text" id="fsubject" name="subject" value={subject} maxLength={40} placeholder="Project Inquiry" onChange={(e) => handleInputChange("subject", e.target.value)}
+                                            className="w-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors" />
+                                    </div>
                                     <div>
                                         <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1.5">Message <span aria-hidden="true">*</span></label>
                                         <textarea id="fmessage" name="message" value={message} rows={7} placeholder="Tell me about your project..." onChange={(e) => handleInputChange("message", e.target.value)}

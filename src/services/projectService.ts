@@ -4,6 +4,20 @@ import type { Service } from '../types/service'
 
 type ApiPayload<T> = { data?: T } | null
 
+export type ContactPayload = {
+  name: string
+  subject: string
+  email: string
+  description: string
+}
+
+export type BrevoMailPayload = {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
 const cacheDurationMs = 60_000
 const requestCache = new Map<string, { expiresAt: number; promise: Promise<unknown> }>()
 
@@ -45,4 +59,16 @@ export const getServices = () => {
 
 export const getSiteContent = () => {
   return invokeCached<ApiPayload<unknown[]>>('get-site-content')
+}
+
+export const insertContact = async (contact: ContactPayload) => {
+  const { data, error } = await supabase.functions.invoke('insert-contact', {
+    body: contact,
+  })
+
+  if (error) {
+    throw error
+  }
+
+  return data
 }

@@ -36,7 +36,7 @@ export const AboutPage: FC<{ siteContent?: unknown; isLoading?: boolean }> = ({ 
 
       <div className="reveal order-2 md:order-1">
         <div className="pf w-full aspect-square max-w-sm mx-auto rounded-3xl">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Eliott" loading="lazy"/>
+          <img src="https://nlkiwqlvtitnstsexsga.supabase.co/storage/v1/object/public/project%20media/Professional_Portrait.png" alt="Eliott" loading="lazy"/>
         </div>
       </div>
 
